@@ -1,0 +1,39 @@
+opAuthMobileUIDPlugin:
+  install: false
+
+opAuthOpenIDPlugin:
+  install: false
+
+opCommunityTopicPlugin:
+  install: false
+
+opWebAPIPlugin:
+  install: false
+
+opDiaryPlugin:
+  install: false
+
+opBlogPlugin:
+  install: false
+
+opOpenSocialPlugin:
+  install: false
+
+opAshiatoPlugin:
+  install: false
+
+opMessagePlugin:
+  install: false
+
+opAlbumPlugin:
+  install: false
+
+opIntroFriendPlugin:
+  install: false
+
+opFavoritePlugin:
+  install: false
+
+opRankingPlugin:
+  install: false
+
