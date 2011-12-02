@@ -339,14 +339,14 @@ mobile:
           Please click following URL, input the password, and complete registration.
           If the mail address is registered, it is changed to a new mail address.
           
-          {% app_url_for('mobile_frontend', 'member/configComplete?token='~token~'&id='~id~'&type='~type, true) %}
+          {% app_url_for('index', 'member/configComplete?token='~token~'&id='~id~'&type='~type, true) %}
       ja_JP:
         - "メールアドレス変更ページのお知らせ"
         - |
           以下のURLをクリックし、パスワードを入力して登録を完了してください。
           メールアドレスが登録されている場合、新しいメールアドレスに変更されます。
           
-          {% app_url_for('mobile_frontend', 'member/configComplete?token='~token~'&id='~id~'&type='~type, true) %}
+          {% app_url_for('index', 'member/configComplete?token='~token~'&id='~id~'&type='~type, true) %}
     variables:
       token:  "PC メールアドレス変更完了 URL の token パラメータの値"
       id: "PC メールアドレス変更完了 URL の id パラメータの値"
@@ -364,9 +364,9 @@ mobile:
           {{ new_member.name }} registered your {{ op_term.community }}, {{ community.name }}.
           
           {{ community.name }} {{ op_term.community }} page:
-          {% app_url_for('mobile_frontend', '@community_home?id='~community.id, true) %}
+          {% app_url_for('index', '@community_home?id='~community.id, true) %}
           {{ new_member.name }}'s profile page:
-          {% app_url_for('mobile_frontend', '@member_profile?id='~new_member.id, true) %}
+          {% app_url_for('index', '@member_profile?id='~new_member.id, true) %}
       ja_JP:
         - "{{ new_member.name }} さんがあなたの {{ op_term.community }} に参加しました"
         - |
@@ -375,9 +375,9 @@ mobile:
           {{ new_member.name }} さんが {{ community.name }}{{ op_term.community }} に参加しました。
           
           ◆{{ communit.name }}{{ op_term.community }}のページ
-          {% app_url_for('mobile_frontend', '@community_home?id='~community.id, true) %}
+          {% app_url_for('index', '@community_home?id='~community.id, true) %}
           ◇{{ new_member.name }}さんのページ
-          {% app_url_for('mobile_frontend', '@member_profile?id='~new_member.id, true) %}
+          {% app_url_for('index', '@member_profile?id='~new_member.id, true) %}
     variables:
       "op_config.sns_name": "SNS 名"
       "new_member.name": "新しいメンバーのニックネーム"
@@ -451,7 +451,7 @@ mobile:
           you can participate in {{ op_config.sns_name }}.
           
           * Participate in {{ op_config.sns_name }}
-          {% app_url_for('mobile_frontend', 'member/register?token='~token, true) %}
+          {% app_url_for('index', 'member/register?token='~token, true) %}
       ja_JP:
         - "{{ op_config.sns_name }}招待状"
         - |
@@ -470,7 +470,7 @@ mobile:
           {{ op_config.sns_name }} に参加できます。
           
           ■ {{ op_config.sns_name }} に参加する
-          {% app_url_for('mobile_frontend', 'member/register?token='~token, true) %}
+          {% app_url_for('index', 'member/register?token='~token, true) %}
     variables:
       "op_config.sns_name": "SNS 名"
       name: "招待者のニックネーム"
@@ -552,7 +552,7 @@ mobile:
           
           Birthday : {{ birthMember.profile.op_preset_birthday|date("m/d") }}
           {{ op_term.nickname }} : {{ birthMember.name }}
-          URL : {{ sf_config.op_base_url }}{% app_url_for("mobile_frontend", "@member_profile?id="~birthMember.id) %}
+          URL : {{ sf_config.op_base_url }}{% app_url_for("index", "@member_profile?id="~birthMember.id) %}
           
           We hope that using {{ op_config.sns_name }} is useful for your future.
       ja_JP:
@@ -563,7 +563,7 @@ mobile:
           
           誕生日 : {{ birthMember.profile.op_preset_birthday|date("m 月 d 日") }}
           {{ op_term.nickname }} : {{ birthMember.name }}
-          URL : {{ sf_config.op_base_url }}{% app_url_for("mobile_frontend", "@member_profile?id="~birthMember.id) %}
+          URL : {{ sf_config.op_base_url }}{% app_url_for("index", "@member_profile?id="~birthMember.id) %}
           
           {{ op_config.sns_name }} が、あなたの今後に役立ちますように、是非、ご活用いただければと思います。
     variables:
