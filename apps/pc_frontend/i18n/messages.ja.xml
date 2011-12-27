@@ -319,6 +319,10 @@
         <target>%friend%リスト</target>
       </trans-unit>
       <trans-unit id="">
+        <source>%1%'s %friend% List</source>
+        <target>%1%さんの%friend%リスト</target>
+      </trans-unit>
+      <trans-unit id="">
         <source>Other members look your page like this.</source>
         <target>※他のメンバーから見たあなたのページはこのようになります。</target>
       </trans-unit>

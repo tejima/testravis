@@ -20,10 +20,12 @@ class memberActions extends opMemberAction
  /**
   * Executes home action
   *
-  * @param sfRequest $request A request object
+  * @param opWebRequest $request A request object
   */
-  public function executeHome($request)
+  public function executeHome(opWebRequest $request)
   {
+    $this->forwardIf($request->isSmartPhone(), 'member', 'smtHome');
+
     $this->topGadgets = null;
     $this->sideMenuGadgets = null;
 
@@ -45,6 +47,16 @@ class memberActions extends opMemberAction
     $this->bottomGadgets = $gadgets['bottom'];
 
     return parent::executeHome($request);
+  }
+
+ /**
+  * Execute smtHome action
+  *
+  * @param opWebRequest $request A request object
+  */
+  public function executeSmtHome(opWebRequest $request)
+  {
+    return sfView::SUCCESS;
   }
 
  /**
@@ -81,10 +93,12 @@ class memberActions extends opMemberAction
  /**
   * Executes profile action
   *
-  * @param sfRequest $request A request object
+  * @param opWebRequest $request A request object
   */
-  public function executeProfile($request)
+  public function executeProfile(opWebRequest $request)
   {
+    $this->forwardIf($request->isSmartPhone(), 'member', 'smtProfile');
+
     $id = $request->getParameter('id', $this->getUser()->getMemberId());
     if ($id != $this->getUser()->getMemberId())
     {
@@ -108,6 +122,20 @@ class memberActions extends opMemberAction
     $this->bottomGadgets = $gadgets['profileBottom'];
 
     return parent::executeProfile($request);
+  }
+
+ /**
+  * Executes smtProfile action
+  *
+  * @param opWebRequest $request A request object
+  */
+  public function executeSmtProfile(opWebRequest $request)
+  {
+    $result = parent::executeProfile($request);
+
+    $this->getResponse()->setDisplayMember($this->member);
+
+    return $result;
   }
 
  /**
@@ -186,5 +214,27 @@ class memberActions extends opMemberAction
       }
     }
     $this->redirect('@homepage');
+  }
+
+ /**
+  * Executes editProfile action
+  *
+  * @param opWebRequest $request a request object
+  */
+  public function executeEditProfile(opWebRequest $request)
+  {
+    $this->forwardIf($request->isSmartPhone(), 'member', 'smtEditProfile');
+
+    return parent::executeEditProfile($request);
+  }
+
+ /**
+  * Executes smtEditProfile action
+  *
+  * @param opWebRequest $request a request object
+  */
+  public function executeSmtEditProfile(opWebRequest $request)
+  {
+    return parent::executeEditProfile($request);
   }
 }

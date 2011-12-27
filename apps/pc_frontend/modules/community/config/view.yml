@@ -1,2 +1,11 @@
 homeSuccess:
   layout: layoutA
+
+smtHomeSuccess:
+  layout: smtLayoutGroup
+
+smtEditSuccess:
+  layout: smtLayoutGroup
+
+smtMemberListSuccess:
+  layout: smtLayoutGroup

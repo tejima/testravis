@@ -18,12 +18,40 @@
 class communityActions extends opCommunityAction
 {
  /**
+  * Executes home action
+  *
+  * @param opWebRequest $request A request object
+  */
+  public function executeHome(opWebRequest $request)
+  {
+    $this->forwardIf($request->isSmartPhone(), 'community', 'smtHome');
+
+    return parent::executeHome($request);
+  }
+
+ /**
+  * Executes smtHome action
+  *
+  * @param opWebRequest $request A request object
+  */
+  public function executeSmtHome(opWebRequest $request)
+  {
+    $result = parent::executeHome($request);
+
+    $this->getResponse()->setDisplayCommunity($this->community);
+
+    return $result;
+  }
+
+ /**
   * Executes edit action
   *
-  * @param sfRequest $request A request object
+  * @param opWebRequest $request A request object
   */
-  public function executeEdit($request)
+  public function executeEdit(opWebRequest $request)
   {
+    $this->forwardIf($request->isSmartPhone(), 'community', 'smtEdit');
+
     $this->enableImage = true;
     $result = parent::executeEdit($request);
 
@@ -31,6 +59,53 @@ class communityActions extends opCommunityAction
       sfConfig::set('sf_nav_type', 'default');
     }
 
+
+    return $result;
+  }
+
+ /**
+  * Executes smtEdit action
+  *
+  * @param opWebRequest $request A request object
+  */
+  public function executeSmtEdit(opWebRequest $request)
+  {
+    $result = parent::executeEdit($request);
+
+    if ($this->community->isNew())
+    {
+      $this->setLayout('smtLayoutHome');
+    }
+    else
+    {
+      $this->getResponse()->setDisplayCommunity($this->community);
+    }
+
+    return $result;
+  }
+
+ /**
+  * Executes memberList action
+  *
+  * @param opWebRequest $request A request object
+  */
+  public function executeMemberList(opWebRequest $request)
+  {
+    $this->forwardIf($request->isSmartPhone(), 'community', 'smtMemberList');
+
+    return parent::executeMemberList($request);
+  }
+
+ /**
+  * Executes smtMemberList action
+  *
+  * @param opWebRequest $request A request object
+  */
+  public function executeSmtMemberList(opWebRequest $request)
+  {
+    $result = parent::executeMemberList($request);
+
+    $this->getResponse()->setDisplayCommunity($this->community);
 
     return $result;
   }

@@ -27,10 +27,20 @@ class friendActions extends opFriendAction
     }
   }
 
-  public function executeList(sfWebRequest $request)
+  public function executeList(opWebRequest $request)
   {
+    $this->forwardIf($request->isSmartPhone(), 'friend', 'smtList');
+
     $this->size = 50;
 
     return parent::executeList($request);
+  }
+
+  public function executeSmtList(opWebRequest $request)
+  {
+    $this->member = Doctrine::getTable('Member')->find($this->id);
+    $this->getResponse()->setDisplayMember($this->member);
+
+    return sfView::SUCCESS;
   }
 }
