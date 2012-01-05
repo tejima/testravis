@@ -48,3 +48,13 @@ activity_delete:
   url: /activity/delete.json
   param: { module: activity, action: delete, sf_format: json }
   requirements: { sf_method: [get] }
+
+community_search:
+  url: /community/search.json
+  param: { module: community, action: search, sf_format: json }
+  requirements: { sf_method: [get] }
+
+community_list:
+  url: /community/list.json
+  param: { module: community, action: search, sf_format: json }
+  requirements: { sf_method: [get] }
