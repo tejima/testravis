@@ -37,6 +37,7 @@ smtHomeSuccess:
   layout: smtLayoutHome
 
 smtProfileSuccess:
+  javascripts: [%OP_JQUERY_URL%, %OP_JQUERY_TEMPLATE_URL%]
   layout: smtLayoutMember
 
 smtEditProfileSuccess:

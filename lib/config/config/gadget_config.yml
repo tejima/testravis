@@ -59,7 +59,19 @@ smartphone:
   name: "スマートフォン版ホーム画面"
   layout:
     default: layoutD
-  plot_action: [design, smartphoneGadgetPlot]
+  plot_action: [design, smartphoneHomeGadgetPlot]
+
+smartphoneProfile:
+  name: "スマートフォン版プロフィール画面"
+  layout:
+    default: layoutD
+  plot_action: [design, smartphoneProfileGadgetPlot]
+
+smartphoneLogin:
+  name: "スマートフォン版ログイン画面"
+  layout:
+    default: layoutD
+  plot_action: [design, smartphoneLoginGadgetPlot]
 
 dailyNews:
   name: "デイリーニュース（PCメールアドレス向け）"

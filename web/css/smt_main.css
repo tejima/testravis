@@ -39,3 +39,16 @@ hr.toumei { margin: 0px; height: 4px; border-color : transparent; }
 }
 
 
+.partsHeading h3
+{
+  height: 20px;
+  background: #333333;
+  color: #ffffff;
+  text-align: center;
+
+  width: 320px;
+
+  line-height: normal;
+  font-weight: normal;
+  font-size: inherit;
+}
