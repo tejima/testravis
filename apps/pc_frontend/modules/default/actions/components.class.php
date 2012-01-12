@@ -39,6 +39,35 @@ class defaultComponents extends sfComponents
     }
   }
 
+  public function executeSmtGlobalNav()
+  {
+    $type = 'insecure_global_smt';
+    if (opToolkit::isSecurePage()) {
+      $type = 'secure_global_smt';
+    }
+    $this->navs = Doctrine::getTable('Navigation')->retrieveByType($type);
+  }
+
+  public function executeSmtLocalNav()
+  {
+    if (!opToolkit::isSecurePage()) {
+      return sfView::NONE;
+    }
+
+    $context = sfContext::getInstance();
+    $module = $context->getActionStack()->getLastEntry()->getModuleName();
+    $action = $context->getActionStack()->getLastEntry()->getActionName();
+
+    $this->type = sfConfig::get('sf_nav_type', sfConfig::get('mod_' . $module . '_default_nav', 'default'));
+
+    $this->navs = Doctrine::getTable('Navigation')->retrieveByType($this->type);
+
+    if ('default' !== $this->type)
+    {
+      $this->navId = sfConfig::get('sf_nav_id', $context->getRequest()->getParameter('id'));
+    }
+  }
+
   public function executeSideBannerGadgets()
   {
     $gadgets = Doctrine::getTable('Gadget')->retrieveGadgetsByTypesName('sideBanner');
