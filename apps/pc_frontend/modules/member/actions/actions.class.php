@@ -56,6 +56,11 @@ class memberActions extends opMemberAction
   */
   public function executeSmtHome(opWebRequest $request)
   {
+    $this->gadgetConfig = sfConfig::get('op_smartphone_gadget_list');
+
+    $gadgets = Doctrine::getTable('Gadget')->retrieveGadgetsByTypesName('smartphone');
+    $this->contentsGadgets = $gadgets['smartphoneContents'];
+
     return sfView::SUCCESS;
   }
 
