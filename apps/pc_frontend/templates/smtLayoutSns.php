@@ -48,6 +48,23 @@ var openpne = {
   </div>
   <div class="span2 center"><?php echo link_to(op_image_tag('HomeIcon.png', array('height' => '48')), '@homepage') ?></div>
 </div>
+
+<?php if ($sf_user->hasFlash('error')): ?>
+<div id="global-error" class="row">
+  <div class="alert-message block-message error">
+    <?php echo __($sf_user->getFlash('error')); ?>
+  </div>
+</div>
+<?php endif; ?>
+
+<?php if ($sf_user->hasFlash('notice')): ?>
+<div id="global-error" class="row">
+  <div class="alert-message block-message info">
+    <?php echo __($sf_user->getFlash('notice')); ?>
+  </div>
+</div>
+<?php endif; ?>
+
 <?php echo $sf_content ?>
 </body>
 </html>

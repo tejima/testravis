@@ -36,9 +36,27 @@ var openpne = {
     <div class="row"><span class="face-name"><?php echo $community->getName() ?></span></div>
     <hr class="toumei">
   </div>
-  <div class="span2 center"><?php echo link_to(op_image_tag('HomeIcon.png', array('height' => '48')), '@homepage'); ?></div>
+  <div class="span2 center"><a href="#menu" id="menubutton"><?php echo op_image_tag('HomeIcon.png', array('height' => '48')) ?></a></div>
   <?php endif ?>
 </div>
+<hr class="toumei">
+<?php include_partial('global/smt_menu') ?>
+<?php if ($sf_user->hasFlash('error')): ?>
+<div id="global-error" class="row">
+  <div class="alert-message block-message error">
+    <?php echo __($sf_user->getFlash('error')); ?>
+  </div>
+</div>
+<?php endif; ?>
+
+<?php if ($sf_user->hasFlash('notice')): ?>
+<div id="global-error" class="row">
+  <div class="alert-message block-message info">
+    <?php echo __($sf_user->getFlash('notice')); ?>
+  </div>
+</div>
+<?php endif; ?>
+
 <?php echo $sf_content ?>
 </body>
 </html>
