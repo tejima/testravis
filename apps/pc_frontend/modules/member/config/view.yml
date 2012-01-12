@@ -40,3 +40,12 @@ smtProfileSuccess:
 
 smtEditProfileSuccess:
   layout: smtLayoutHome
+
+smtConfigSuccess:
+  layout: smtLayoutHome
+
+smtConfigImageSuccess:
+  layout: smtLayoutHome
+
+smtInviteSuccess:
+  layout: smtLayoutHome
