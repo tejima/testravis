@@ -4,7 +4,7 @@ loginForm:
   description:
     ja_JP: "ログイン用のフォームを設置できます。利用可能なすべての認証モード用のログインフォームがすべて含まれています。"
   viewable_privilege: 4
-  component: [default, loginFormBox]
+  component: [default, smtLoginFormBox]
 
 freeArea:
   caption:

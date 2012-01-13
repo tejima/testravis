@@ -118,6 +118,11 @@ class defaultComponents extends sfComponents
     $this->forms = $this->getUser()->getAuthForms();
   }
 
+  public function executeSmtLoginFormBox()
+  {
+    $this->forms = $this->getUser()->getAuthForms();
+  }
+
   public function executeSideBanner()
   {
   }
