@@ -71,9 +71,9 @@ foreach ($member->getProfiles(true) as $profile)
 </div>
 <hr class="toumei" />
 <div class="row">
-  <div class="span12">
+  <div class="span8" style="float: center;">
     <hr class="toumei" />
-    <?php echo op_image_tag_sf_image($member->getImageFileName(), array('size' => '320x320')) ?>
+    <?php echo op_image_tag_sf_image($member->getImageFileName(), array('size' => '180x180')) ?>
   </div>
 </div>
 <hr class="toumei" />
