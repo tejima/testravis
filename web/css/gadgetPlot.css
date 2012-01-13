@@ -101,6 +101,7 @@ body
 #plotMobileFooterContents div,
 #plotSmartphoneContents div,
 #plotSmartphoneProfileContents div,
+#plotSmartphoneCommunityContents div,
 #plotSmartphoneLoginContents div,
 #plotDailyNewsContents div,
 #plotMobileDailyNewsContents div
@@ -137,6 +138,7 @@ body
 #plotMobileFooterContents div.emptyGadget,
 #plotSmartphoneContents div.emptyGadget,
 #plotSmartphoneProfileContents div.emptyGadget,
+#plotSmartphoneCommunityContents div.emptyGadget,
 #plotSmartphoneLoginContents div.emptyGadget,
 #plotDailyNewsContents div.emptyGadget,
 #plotMobileDailyNewsContents div.emptyGadget

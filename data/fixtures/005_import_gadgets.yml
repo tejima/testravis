@@ -68,3 +68,13 @@ Gadget:
     type: "mobileProfileBottom"
     name: "communityJoinListBox"
     sort_order: 20
+
+  smartphone_profile_gadget_profile:
+    type: "smartphoneProfileContents"
+    name: "profileListBox"
+    sort_order: 10
+
+  smartphone_community_gadget_community:
+    type: "smartphoneCommunityContents"
+    name: "communityListBox"
+    sort_order: 10
