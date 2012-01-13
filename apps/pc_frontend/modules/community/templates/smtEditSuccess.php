@@ -33,62 +33,62 @@
 <?php endif; ?>
 
 <div class="row">
-<table class="zebra-striped">
 <?php foreach ($communityForm as $cf): ?>
 <?php if (!$cf->isHidden()): ?>
-<tr>
-  <th><?php echo $cf->renderLabel(); ?></th>
+  <div class="span12">
+  <?php echo $cf->renderLabel(); ?>
+  </div>
   <?php if ($cf->hasError()): ?>
-  <td><div class="clearfix error"><span class="label important"><?php echo __($cf->getError()); ?></span><?php echo $cf->render(array('class' => 'span16 error')) ?><span class="help-block"><?php echo $cf->renderHelp(); ?></span></div></td>
+  <div class="span12"><div class="clearfix error"><span class="label important"><?php echo __($cf->getError()); ?></span><?php echo $cf->render(array('class' => 'span12 error')) ?><span class="help-block"><?php echo $cf->renderHelp(); ?></span></div></div>
   <?php else: ?>
-  <td><?php echo $cf->render(array('class' => 'span16')) ?><span class="help-block"><?php echo $cf->renderHelp(); ?></span></td>
+  <div class="span12"><?php echo $cf->render(array('class' => 'span12')) ?><span class="help-block"><?php echo $cf->renderHelp(); ?></span></div>
   <?php endif; ?>
-</tr>
 <?php endif; ?>
 <?php endforeach; ?>
+</div>
 
+<div class="row">
 <?php foreach ($communityConfigForm as $ccf): ?>
-<?php if (!$ccf->isHidden()): ?>
-<tr>
-  <th><?php echo $ccf->renderLabel(); ?></th>
+<?php if (!$ccf->isHidden()): ?>>
+  <div class="span12"><?php echo $ccf->renderLabel(); ?></div>
   <?php if ($ccf->hasError()): ?>
-  <td><div class="clearfix error"><span class="label important"><?php echo __($ccf->getError()); ?></span><?php echo $ccf->render(array('class' => 'span16 error')) ?><span class="help-block"><?php echo $ccf->renderHelp(); ?></span></div></td>
+  <div class="span12"><div class="clearfix error"><span class="label important"><?php echo __($ccf->getError()); ?></span><?php echo $ccf->render(array('class' => 'span12 error')) ?><span class="help-block"><?php echo $ccf->renderHelp(); ?></span></div></div>
   <?php else: ?>
-  <td><?php echo $ccf->render(array('class' => 'span16')) ?><span class="help-block"><?php echo $ccf->renderHelp(); ?></span></td>
+  <div><?php echo $ccf->render(array('class' => 'span12')) ?><span class="help-block"><?php echo $ccf->renderHelp(); ?></span></div>
   <?php endif; ?>
-</tr>
 <?php endif; ?>
 <?php endforeach; ?>
+</div>
 
+<div class="row">
 <?php foreach ($communityFileForm as $cff): ?>
 <?php if (!$cff->isHidden()): ?>
-<tr>
-  <th><?php echo $cff->renderLabel(); ?></th>
+  <div class="span12"><?php echo $cff->renderLabel(); ?></div>
   <?php if ($cff->hasError()): ?>
-  <td><div class="clearfix error"><span class="label important"><?php echo __($cff->getError()); ?></span><?php echo $cff->render(array('class' => 'span16 error')) ?><span class="help-block"><?php echo $cff->renderHelp(); ?></span></div></td>
+  <div class="span12"><div class="clearfix error"><span class="label important"><?php echo __($cff->getError()); ?></span><?php echo $cff->render(array('class' => 'span12 error')) ?><span class="help-block"><?php echo $cff->renderHelp(); ?></span></div></div>
   <?php else: ?>
-  <td><?php echo $cff->render(array('class' => 'span16')) ?><span class="help-block"><?php echo $cff->renderHelp(); ?></span></td>
+  <div class="span12"><?php echo $cff->render(array('class' => 'span12')) ?><span class="help-block"><?php echo $cff->renderHelp(); ?></span></div>
   <?php endif; ?>
-</tr>
 <?php endif; ?>
 <?php endforeach; ?>
+</div>
 
-<tr>
-  <th>
-    <input type="submit" name="submit" value="編集する" class="btn primary" />
-    <?php echo $communityForm->renderHiddenFields(); ?>
-    <?php echo $communityConfigForm->renderHiddenFields(); ?>
-    <?php echo $communityFileForm->renderHiddenFields(); ?>
-    </form>
-  </th>
-  <td>
+<div class="row">
+<div class="span5">
+<input type="submit" name="submit" value="編集する" class="btn primary" />
+<?php echo $communityForm->renderHiddenFields(); ?>
+<?php echo $communityConfigForm->renderHiddenFields(); ?>
+<?php echo $communityFileForm->renderHiddenFields(); ?>
+</form>
+</div>
+
+<div class="span5">
   <?php if (!$communityForm->isNew() && $isDeleteCommunity): ?>
   <?php echo form_tag(url_for('@community_delete?id='.$community->getId())) ?>
   <span class="label important">DANGER</span>: <input type="submit" name="submit" value="<?php echo __('Delete'); ?>" class="btn danger" />
   </form>
   <?php endif; ?>
-  </td>
-</tr>
-</table>
+</div>
+</div>
 
 </div>
