@@ -33,4 +33,13 @@ class memberComponents extends opMemberComponents
       $this->member = $this->getUser()->getMember();
     }
   }
+
+  public function executeSmtMemberFriendListBox($request)
+  {
+  }
+
+  public function executeSmtMemberJoinCommunityListBox($request)
+  {
+  }
+
 }

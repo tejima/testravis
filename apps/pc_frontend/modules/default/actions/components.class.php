@@ -39,11 +39,15 @@ class defaultComponents extends sfComponents
     }
   }
 
+  public function executeSmtMenu()
+  {
+  }
+
   public function executeSmtGlobalNav()
   {
-    $type = 'insecure_global_smt';
+    $type = 'insecure_global';
     if (opToolkit::isSecurePage()) {
-      $type = 'secure_global_smt';
+      $type = 'secure_global';
     }
     $this->navs = Doctrine::getTable('Navigation')->retrieveByType($type);
   }
