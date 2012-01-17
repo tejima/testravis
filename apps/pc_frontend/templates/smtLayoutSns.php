@@ -47,7 +47,9 @@ var openpne = {
       <?php endif ?>
     </div>
   </div>
+      <?php if (opToolkit::isSecurePage()): ?>
   <div class="span2 center"><?php echo link_to(op_image_tag('HomeIcon.png', array('height' => '48')), '@homepage') ?></div>
+      <?php endif; ?>
 </div>
 
 <hr class="toumei">
