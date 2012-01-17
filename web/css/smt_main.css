@@ -1,15 +1,34 @@
-#face .row { padding: 0px 0px 0px 6px; }
-#face a { font-size: 14px; }
-#face { height: 52px; background: #eeeeee; padding: 4px 0px 0px 0px; }
-#tosaka { height: 44px; background: #555; padding-top: 8px; }
+#slot_face .row { padding: 0px 0px 0px 4px; }
+#slot_face a { font-size: 14px; }
+#slot_face > .row { height: 52px; background: #eeeeee; padding: 4px 0px 0px 0px; }
+
+.postform, .ncform, .menuform {
+  background:#555555;
+}
+.white{
+  color:#ffffff;
+}
+
+
+.postface { height: 52px; background: #eeeeee; padding: 4px 0px 0px 0px; }
+.tosaka_margin, .right_margin, .left_margin, .center_margin { background: #555; }
+
+
+#slot_tosaka  .span12 { 
+  height: 34px; background: #555; 
+}
 .center { margin-left:auto; margin-right:auto; text-align:center; }
 .debug { background: #aaaaaa; text-align: center; height: 32px; }
 .face-name { font-size: 20px; }
 
-.gadget_header { background: #333333; color: #ffffff; text-align: center; padding: 9px 0; font-size: 16px; }
+.gadget_header { height: 20px; background: #333333; color: #ffffff; text-align: center; }
 body { width: 320px; }
-div#tosaka div { height: 100%; }
+div#slot_tosaka div { height: 100%; }
+
 hr.toumei { margin: 0px; height: 4px; border-color : transparent; }
+hr.toumei2 { margin: 0px; height: 2px; border-color : transparent; }
+hr.toumei100 { margin: 0px; height: 100px; border-color : transparent; }
+hr.white2 { margin: 0px; height: 2px; border-bottom: 0px;background: #ffffff; opacity: 0.5; }
 
 .menu-margin{
   background: #555;
@@ -23,7 +42,7 @@ hr.toumei { margin: 0px; height: 4px; border-color : transparent; }
   -moz-border-radius: 10px 10px 0 0 ;
   border-radius: 10px 10px 0 0 ;
 }
-.menu-middle{
+.menu-middle > div{
   color: #fff;
   background: #555;
 }
@@ -51,31 +70,39 @@ hr.toumei { margin: 0px; height: 4px; border-color : transparent; }
   -webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
 }
 
-.font10 { font-size: 10px; }
-.font12 { font-size: 12px; }
-.font14 { font-size: 14px; }
-.font16 { font-size: 16px; }
-.font18 { font-size: 18px; }
-
+.font11{
+  font-size: 11px;
+  line-height: 13px;
+}
+.font10{
+  font-size: 10px;
+  line-height: 12px;
+}
+.font14{
+  font-size: 14px;
+  line-height: 16px;
+}
+.font20{
+  font-size: 20px;
+  line-height: 24px;
+}
 
 .row_memberimg{
   height: 57px;
 }
 .row_membername{
   height: 30px;
+  line-height: 12px;
 }
 
+.row_profile *{
+  text-align: left;
+}
 
-.partsHeading h3
-{
-  height: 20px;
-  background: #333333;
-  color: #ffffff;
-  text-align: center;
-
-  width: 320px;
-
-  line-height: normal;
-  font-weight: normal;
-  font-size: inherit;
+.timeline *{
+  text-align: left;
+}
+.comment *{
+  background: #ddd;
+  text-align: left;
 }
