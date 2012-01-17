@@ -26,3 +26,11 @@ communityListBox:
     ja_JP: "コミュニティ情報のリストを表示します"
   viewable_privilege: 4
   component: [community, smtCommunityListBox]
+
+communityMemberJoinListBox:
+  caption:
+    ja_JP: "コミュニティ参加者一覧"
+  description:
+    ja_JP: "コミュニティの参加者一覧を表示します"
+  component: [community, smtCommunityMemberJoinListBox]
+
