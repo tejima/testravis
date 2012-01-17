@@ -1,5 +1,4 @@
 <div class="menuform hide template">
-  
   <div class="menu-margin row">
     <?php echo op_image_tag('MENU_MARGIN.png', array('width' => '324', 'height' => '12')); ?>
   </div>
@@ -10,22 +9,10 @@
      Home Menu
     </div>
   </div>
+
   <div class="menu-middle row">
     <div class="span11 offset1">
-      <a class="btn">Home</a>
-      <a class="btn">Diary</a>
-      <a class="btn">Community</a>
-
-      <a class="btn">Community</a>
-      <a class="btn">Logout</a>
-      <a class="btn">Home</a>
-      <a class="btn">Diary</a>
-      <a class="btn">Logout</a>
-      <a class="btn">Home</a>
-
-      <a class="btn">Diary</a>
-      <a class="btn">Community</a>
-      <a class="btn">Logout</a>
+      <?php include_component('default', 'smtLocalNav'); ?>
     </div>
   </div>
   <div class="menu-middle row">
@@ -34,11 +21,8 @@
     </div>
   </div>
   <div class="menu-middle row">
-    <div class="span11 offset1">
-      <a class="btn">Home</a>
-      <a class="btn">Diary</a>
-      <a class="btn">Community</a>
-      <a class="btn">Logout</a>
+    <div class="span11 offset1">    
+      <?php include_component('default', 'smtGlobalNav'); ?>
     </div>
   </div>
   <div class="menu-bottom row">
