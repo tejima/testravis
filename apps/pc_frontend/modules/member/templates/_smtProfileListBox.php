@@ -1,18 +1,4 @@
 <?php use_helper('Javascript') ?>
-<script id="friendListTemplate" type="text/x-jquery-tmpl">
-  <div class="span3">
-    <div class="row_memberimg row"><a href="${member.profile_url}"><img src="${member.image}" class="rad10" width="57" height="57"></a></div>
-    <div class="row_membername font10 row"><a href="${member.profile_url}">${member.name}</a> (${member.count})</div>
-  </div>
-</script>
-<script type="text/javascript">
-$(function(){
-  $.getJSON( '<?php echo app_url_for('api', 'member/friendList.json', array('id' => $member->getId())); ?>&apiKey=' + openpne.apiKey, function(json) {
-    $('#friendListTemplate').tmpl(json.data).appendTo('#memberFriendList');
-  });
-});
-</script>
-
 <?php
 op_include_parts('descriptionBox', 'smtProfileTop', array());
 foreach ($member->getProfiles(true) as $profile)
@@ -65,22 +51,3 @@ foreach ($member->getProfiles(true) as $profile)
 </tbody>
 </table>
 </div>
-
-<div class="row">
-  <div class="gadget_header span12"><?php echo __('Photo') ?></div>
-</div>
-<hr class="toumei" />
-<div class="row">
-  <div class="span8" style="float: center;">
-    <hr class="toumei" />
-    <?php echo op_image_tag_sf_image($member->getImageFileName(), array('size' => '180x180')) ?>
-  </div>
-</div>
-<hr class="toumei" />
-<div class="row">
-  <div class="gadget_header span12"><?php echo __('%friend% List', array('%friend%' => $op_term['friend'])) ?></div>
-</div>
-<hr class="toumei" />
-<div class="row" id="memberFriendList">
-</div>
- 
