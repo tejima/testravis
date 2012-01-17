@@ -24,6 +24,7 @@ var openpne = {
 ?>
 <?php endif; ?>
 <?php include_javascripts() ?>
+<?php use_javascript('smt_menu'); ?>
 </head>
 <body id="<?php printf('page_%s_%s', $this->getModuleName(), $this->getActionName()) ?>" class="<?php echo opToolkit::isSecurePage() ? 'secure_page' : 'insecure_page' ?>">
 <?php include_partial('global/tosaka') ?>
@@ -49,6 +50,8 @@ var openpne = {
   <div class="span2 center"><?php echo link_to(op_image_tag('HomeIcon.png', array('height' => '48')), '@homepage') ?></div>
 </div>
 
+<hr class="toumei">
+<?php include_partial('default/smtMenu') ?>
 <?php if ($sf_user->hasFlash('error')): ?>
 <div id="global-error" class="row">
   <div class="alert-message block-message error">
