@@ -26,3 +26,18 @@ profileListBox:
     ja_JP: "プロフィール情報のリストを表示します"
   viewable_privilege: 4
   component: [member, smtProfileListBox]
+
+memberFriendListBox:
+  caption:
+    ja_JP: "メンバーフレンド一覧"
+  description:
+    ja_JP: "メンバーのフレンド一覧を表示します"
+  component: [member, smtMemberFriendListBox]
+
+memberJoinCommunityListBox:
+  caption:
+    ja_JP: "メンバーコミュニティ参加者一覧"
+  description:
+    ja_JP: "メンバーが参加しているコミュニティの一覧を表示します"
+  component: [member, smtMemberJoinCommunityListBox]
+
