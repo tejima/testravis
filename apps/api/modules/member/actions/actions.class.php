@@ -19,6 +19,7 @@ class memberActions extends opApiActions
 
     $this->communities = Doctrine::getTable('Community')->createQuery('c')
       ->innerJoin('c.CommunityMember cm WITH cm.is_pre = false AND cm.member_id = ?', $memberId)
+      ->limit(sfConfig::get('op_json_api_limit', 20))
       ->execute();
 
     $this->setTemplate('array', 'community');
@@ -47,7 +48,9 @@ class memberActions extends opApiActions
       }
     }
 
-    $this->members = $query->execute();
+    $this->members = $query
+      ->limit(sfConfig::get('op_json_api_limit', 20))
+      ->execute();
 
     $this->setTemplate('array');
   }

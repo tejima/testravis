@@ -11,7 +11,9 @@ class communityActions extends opApiActions
       $query->andWhereLike('name', $request['keyword']);
     }
 
-    $this->communities = $query->execute();
+    $this->communities = $query
+      ->limit(sfConfig::get('op_json_api_limit', 20))
+      ->execute();
 
     $this->setTemplate('array');
   }

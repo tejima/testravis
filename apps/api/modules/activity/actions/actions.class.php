@@ -12,7 +12,7 @@ class activityActions extends opApiActions
       ->andWhere('in_reply_to_activity_id IS NULL')
       ->andWhere('foreign_table IS NULL')
       ->andWhere('foreign_id IS NULL')
-      ->limit(20);
+      ->limit(sfConfig::get('op_json_api_limit', 20));
 
     if (isset($request['keyword']))
     {
@@ -46,7 +46,7 @@ class activityActions extends opApiActions
       ->andWhere('in_reply_to_activity_id IS NULL')
       ->andWhere('foreign_table IS NULL')
       ->andWhere('foreign_id IS NULL')
-      ->limit(20);
+      ->limit(sfConfig::get('op_json_api_limit', 20));
 
     $this->activityData = $query->execute();
 
@@ -63,7 +63,7 @@ class activityActions extends opApiActions
       ->andWhere('in_reply_to_activity_id IS NULL')
       ->andWhere('foreign_table IS NULL')
       ->andWhere('foreign_id IS NULL')
-      ->limit(20);
+      ->limit(sfConfig::get('op_json_api_limit', 20));
 
     $this->activityData = $query->execute();
 
@@ -98,7 +98,7 @@ class activityActions extends opApiActions
       ->andWhere('in_reply_to_activity_id IS NULL')
       ->andWhere('foreign_table IS "community"')
       ->andWhereIn('foreign_id', $communityIds)
-      ->limit(20);
+      ->limit(sfConfig::get('op_json_api_limit', 20));
 
     $this->activityData = $query->execute();
 
