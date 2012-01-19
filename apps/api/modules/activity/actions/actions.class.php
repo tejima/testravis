@@ -5,104 +5,123 @@ class activityActions extends opApiActions
   public function executeSearch(sfWebRequest $request)
   {
     $builder = opActivityQueryBuilder::create()
-      ->setViewerId($this->getUser()->getMemberId())
-      ->includeSns();
+      ->setViewerId($this->getUser()->getMemberId());
 
-    $query = $builder->buildQuery()
-      ->andWhere('in_reply_to_activity_id IS NULL')
-      ->andWhere('foreign_table IS NULL')
-      ->andWhere('foreign_id IS NULL')
-      ->limit(sfConfig::get('op_json_api_limit', 20));
+    if (isset($request['target']))
+    {
+      if ('friend' === $request['target'])
+      {
+        $builder->includeFriends($request['target_id'] ? $request['target_id'] : null);
+      }
+      elseif ('community' === $request['target'])
+      {
+        $this->forward400Unless($request['target_id'], 'target_id parameter not specified.');
+        $builder->includeCommunity($request['target_id']);
+      }
+      else
+      {
+        $this->forward400('target parameter is invalid.');
+      }
+    }
+    else
+    {
+      if (isset($request['member_id']))
+      {
+        $builder->includeMember(explode(',', $request['member_id']));
+      }
+      else
+      {
+        $builder->includeSns();
+      }
+    }
+
+    $query = $builder->buildQuery();
 
     if (isset($request['keyword']))
     {
       $query->andWhereLike('body', $request['keyword']);
     }
 
-    $this->activityData = $query->execute();
+    $globalAPILimit = sfConfig::get('op_json_api_limit', 20);
+    if (isset($request['count']) && (int)$request['count'] < $globalAPILimit)
+    {
+      $query->limit($request['count']);
+    }
+    else
+    {
+      $query->limit($globalAPILimit);
+    }
+
+    if (isset($request['max_id']))
+    {
+      $query->addWhere('id <= ?', $request['max_id']);
+    }
+
+    if (isset($request['since_id']))
+    {
+      $query->addWhere('id > ?', $request['since_id']);
+    }
+
+    $this->activityData = $query
+      ->andWhere('in_reply_to_activity_id IS NULL')
+      ->execute();
 
     $this->setTemplate('array');
   }
 
   public function executeMember(sfWebRequest $request)
   {
-    $builder = opActivityQueryBuilder::create()
-      ->setViewerId($this->getUser()->getMemberId());
-
-    if (isset($request['member_id']))
+    if ($request['id'])
     {
-      $builder->includeMember(explode(',', $request['member_id']));
-    }
-    elseif (isset($request['id']))
-    {
-      $builder->includeMember(explode(',', $request['id']));
-    }
-    else
-    {
-      $builder->includeSelf();
+      $request['member_id'] = $request['id'];
     }
 
-    $query = $builder->buildQuery()
-      ->andWhere('in_reply_to_activity_id IS NULL')
-      ->andWhere('foreign_table IS NULL')
-      ->andWhere('foreign_id IS NULL')
-      ->limit(sfConfig::get('op_json_api_limit', 20));
+    if (isset($request['target']))
+    {
+      unset($request['target']);
+    }
 
-    $this->activityData = $query->execute();
-
-    $this->setTemplate('array');
+    $this->forward('activity', 'search');
   }
 
   public function executeFriends(sfWebRequest $request)
   {
-    $builder = opActivityQueryBuilder::create()
-      ->setViewerId($this->getUser()->getMemberId())
-      ->includeAllFriends();
+    $request['target'] = 'friend';
 
-    $query = $builder->buildQuery()
-      ->andWhere('in_reply_to_activity_id IS NULL')
-      ->andWhere('foreign_table IS NULL')
-      ->andWhere('foreign_id IS NULL')
-      ->limit(sfConfig::get('op_json_api_limit', 20));
+    if (isset($request['member_id']))
+    {
+      $request['target_id'] = $request['member_id'];
+      unset($request['member_id']);
+    }
+    elseif (isset($request['id']))
+    {
+      $request['target_id'] = $request['id'];
+      unset($request['id']);
+    }
 
-    $this->activityData = $query->execute();
-
-    $this->setTemplate('array');
+    $this->forward('activity', 'search');
   }
 
   public function executeCommunity(sfWebRequest $request)
   {
+    $request['target'] = 'community';
+
     if (isset($request['community_id']))
     {
-      $communityIds = explode(',', $request['community_id']);
+      $request['target_id'] = $request['community_id'];
+      unset($request['community_id']);
     }
     elseif (isset($request['id']))
     {
-      $communityIds = explode(',', $request['id']);
+      $request['target_id'] = $request['id'];
+      unset($request['id']);
     }
     else
     {
       $this->forward400('community_id parameter not specified.');
     }
 
-    $communityMembers = Doctrine::getTable('CommunityMember')->createQuery()
-      ->select('DISTINCT member_id')
-      ->andWhereIn('community_id', $communityIds)
-      ->execute(array(), Doctrine::HYDRATE_SINGLE_SCALAR);
-
-    $builder = opActivityQueryBuilder::create()
-      ->setViewerId($this->getUser()->getMemberId())
-      ->includeMember($communityMembers);
-
-    $query = $builder->buildQuery()
-      ->andWhere('in_reply_to_activity_id IS NULL')
-      ->andWhere('foreign_table IS "community"')
-      ->andWhereIn('foreign_id', $communityIds)
-      ->limit(sfConfig::get('op_json_api_limit', 20));
-
-    $this->activityData = $query->execute();
-
-    $this->setTemplate('array');
+    $this->forward('activity', 'search');
   }
 
   public function executePost(sfWebRequest $request)
@@ -174,5 +193,22 @@ class activityActions extends opApiActions
     $activity->delete();
 
     return $this->renderJSON(array('status' => 'success'));
+  }
+
+  public function executeMentions(sfWebRequest $request)
+  {
+    $builder = opActivityQueryBuilder::create()
+      ->setViewerId($this->getUser()->getMemberId())
+      ->includeMentions();
+
+    $query = $builder->buildQuery()
+      ->andWhere('in_reply_to_activity_id IS NULL')
+      ->andWhere('foreign_table IS NULL')
+      ->andWhere('foreign_id IS NULL')
+      ->limit(20);
+
+    $this->activityData = $query->execute();
+
+    $this->setTemplate('array');
   }
 }

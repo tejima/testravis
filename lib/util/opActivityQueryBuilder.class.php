@@ -33,7 +33,9 @@ class opActivityQueryBuilder
       'self' => false,
       'friend' => false,
       'sns' => false,
+      'mention' => false,
       'member' => false,
+      'community' => false,
     );
 
     return $this;
@@ -45,9 +47,9 @@ class opActivityQueryBuilder
     return $this;
   }
 
-  public function includeAllFriends()
+  public function includeFriends($target_member_id)
   {
-    $this->include['friend'] = true;
+    $this->include['friend'] = $target_member_id ?: $this->viewerId;
     return $this;
   }
 
@@ -57,9 +59,21 @@ class opActivityQueryBuilder
     return $this;
   }
 
+  public function includeMentions()
+  {
+    $this->include['mention'] = true;
+    return $this;
+  }
+
   public function includeMember($member_id)
   {
     $this->include['member'] = $member_id;
+    return $this;
+  }
+
+  public function includeCommunity($community_id)
+  {
+    $this->include['community'] = $community_id;
     return $this;
   }
 
@@ -72,29 +86,42 @@ class opActivityQueryBuilder
 
     if ($this->include['self'])
     {
-      $subQuery[] = $this->buildSelfQuery($query->createSubquery());
+      $subQuery[] = $this->buildSelfQuery($query->createSubquery())
+        ->addWhere('foreign_table IS NULL OR foreign_table <> "community"');
     }
 
     if ($this->include['friend'])
     {
-      $subQuery[] = $this->buildFriendQuery($query->createSubquery());
+      $subQuery[] = $this->buildFriendQuery($query->createSubquery(), $this->include['friend'])
+        ->addWhere('foreign_table IS NULL OR foreign_table <> "community"');
     }
 
     if ($this->include['sns'])
     {
-      $subQuery[] = $this->buildAllMemberQuery($query->createSubquery());
+      $subQuery[] = $this->buildAllMemberQuery($query->createSubquery())
+        ->addWhere('foreign_table IS NULL OR foreign_table <> "community"');
+    }
+
+    if ($this->include['mention'])
+    {
+      $subQuery[] = $this->buildMentionQuery($query->createSubquery());
     }
 
     if ($this->include['member'])
     {
-      $subQuery[] = $this->buildMemberQueryWithCheckRel($query->createSubquery(), $this->include['member']);
+      $subQuery[] = $this->buildMemberQueryWithCheckRel($query->createSubquery(), $this->include['member'])
+        ->addWhere('foreign_table IS NULL OR foreign_table <> "community"');
+    }
+
+    if ($this->include['community'])
+    {
+      $subQuery[] = $this->buildCommunityQuery($query->createSubquery(), $this->include['community']);
     }
 
     $subQuery = array_map(array($this, 'trimSubqueryWhere'), $subQuery);
 
     $query->andWhere(implode(' OR ', $subQuery))
-      ->orderBy('id DESC')
-      ->limit(20);
+      ->orderBy('id DESC');
 
     return $query;
   }
@@ -104,12 +131,12 @@ class opActivityQueryBuilder
     return $this->buildMemberQuery($query, $this->viewerId, ActivityDataTable::PUBLIC_FLAG_PRIVATE);
   }
 
-  protected function buildFriendQuery($query)
+  protected function buildFriendQuery($query, $member_id)
   {
     $friendsQuery = $query->createSubquery()
       ->select('r.member_id_to')
       ->from('MemberRelationship r')
-      ->addWhere('r.member_id_from = ?', $this->viewerId)
+      ->addWhere('r.member_id_from = ?', $member_id)
       ->addWhere('r.is_friend = true')
       ->andWhereNotIn('r.member_id_to', $this->inactiveIds);
 
@@ -170,10 +197,40 @@ class opActivityQueryBuilder
       }
     }
 
-    $subQuery = array_map(array($this, 'trimSubqueryWhere'), $subQuery);
+    if (!empty($subQuery))
+    {
+      $subQuery = array_map(array($this, 'trimSubqueryWhere'), $subQuery);
+      $query->andWhere(implode(' OR ', $subQuery));
+    }
+
+    return $query;
+  }
+
+  protected function buildMentionQuery($query)
+  {
+    $friendQuery = $this->buildFriendQuery($query->createSubquery())
+      ->andWhereLike('a.template_param', '|'.$this->viewerId.'|');
+
+    $snsQuery = $this->buildAllMemberQuery($query->createSubquery())
+      ->andWhereLike('a.template_param', '|'.$this->viewerId.'|');
+
+    $subQuery = array_map(array($this, 'trimSubqueryWhere'), array($friendQuery, $snsQuery));
     $query->andWhere(implode(' OR ', $subQuery));
 
     return $query;
+  }
+
+  protected function buildCommunityQuery($query, $community_id)
+  {
+    $communityMemberIds = Doctrine::getTable('CommunityMember')->createQuery()
+      ->select('DISTINCT member_id')
+      ->addWhere('community_id = ?', $community_id)
+      ->addWhere('is_pre = false')
+      ->execute(array(), Doctrine::HYDRATE_SINGLE_SCALAR);
+
+    return $this->buildMemberQueryWithCheckRel($query, $communityMemberIds)
+      ->addWhere('foreign_table = "community"')
+      ->addWhere('foreign_id = ?', $community_id);
   }
 
   protected function trimSubqueryWhere($subquery)
