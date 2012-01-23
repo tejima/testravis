@@ -1,0 +1,7 @@
+topSuccess:
+  javascripts: [%OP_JQUERY_URL%]
+
+templateHelpSuccess:
+  layout: plain
+  stylesheets: [main, -backend, template_help]
+

@@ -1,0 +1,117 @@
+OpenPNE 3.6 バージョンアップ手順
+================================
+
+はじめに
+--------
+
+このドキュメントは、 OpenPNE 3.2.0 以上の全てのバージョンから OpenPNE 3.6.x へのバージョンアップ作業（メジャーバージョンアップ、およびマイナーバージョンアップ）の手順を示したものです。
+
+※バージョンアップをおこなう前に、データベースのバックアップを取っておくことを強くお勧めします。
+
+手順
+----
+
+バージョンアップは以下の手順でおこないます。
+
+(1) ファイルの設置
+(2) 設定ファイルの上書き
+(3) バージョンアップコマンドの実行
+
+作業方法
+--------
+
+ファイルの設置
+~~~~~~~~~~~~~~
+
+Web サーバ上の任意のディレクトリに OpenPNE 3.6 のソースファイルを設置します。（※新旧ソースファイル混在によるトラブルを防ぐため、上書きではなくファイルすべてを交換してください。）
+
+* OpenPNE3_Setup_Guide.txt の「OpenPNE3 のソースコードを入手する」を参照。
+
+設定ファイルの上書き
+~~~~~~~~~~~~~~~~~~~~
+
+OpenPNE 3.6 付属の設定ファイルをコピーしてください。
+
+::
+
+  $ cd /path/to/new/OpenPNE3
+  $ cp config/ProjectConfiguration.class.php.sample config/ProjectConfiguration.class.php
+  $ cp config/OpenPNE.yml.sample config/OpenPNE.yml
+
+※config/ProjectConfiguration.class.php に独自の設定を記述している場合は、古いファイルを参考に新しいファイルを変更してください。
+
+OpenPNE.yml の設定値を環境に合わせて変更してください。特に base_url と mail_domain はメール投稿、メール配信の際に利用されるので必ず設定をおこなってください。
+
+古いバージョンの config/databases.yml を新しいバージョンの config/databases.yml としてコピーします。
+
+::
+
+  $ cp /path/to/old/OpenPNE3/config/databases.yml /path/to/new/OpenPNE3/config/databases.yml
+
+プラグインディレクトリのコピー
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+独自で入れたプラグインや同梱されているプラグインのバージョンよりも新しいバージョンなどを新しい環境で用いるために、古いバージョンの plugins ディレクトリの中身をコピーします。
+
+::
+
+CentOS や Ubuntu など、 cp コマンドに -u オプションがある場合。
+
+  $ cp -au /path/to/old/OpenPNE3/plugins/. /path/to/new/OpenPNE3/plugins
+
+MacOSX や FreeBSD など、 cp コマンドに -u オプションがなく -n オプションがある場合。
+
+  $ cp -an /path/to/old/OpenPNE3/plugins/. /path/to/new/OpenPNE3/plugins
+
+* どちらのコマンドを実行可能かについては「man cp」コマンドを実行してチェックしてください。
+
+モデルの再構築
+~~~~~~~~~~~~~~
+
+プロジェクトのルートディレクトリで、以下のコマンドを実行します。
+
+::
+
+  $ ./symfony doctrine:build-model
+  $ ./symfony cc
+
+この手順は、次の「バージョンアップコマンドの実行」に必要となります。
+
+バージョンアップコマンドの実行
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+プロジェクトのルートディレクトリで、以下のバージョンアップコマンドを実行します。
+
+::
+
+  $ ./symfony openpne:migrate
+  $ ./symfony plugin:publish-assets
+
+このコマンドは OpenPNE 本体、プラグインの両方を最新の状態にバージョンアップします。
+
+OpenPNE 3.2.7.2、3.4.9、3.6beta6 以前からのバージョンアップの場合、以下のコマンドを実施する必要があります。
+
+コマンドの実施前に以下のブログ記事をお読みください。
+
+【緊急リリース】OpenPNE 3 に存在するセッション管理の不備に関する複数の脆弱性のお知らせ
+
+http://www.openpne.jp/archives/5689/
+
+::
+
+  $ ./symfony openpne:fix-session-db
+
+以上でバージョンアップは完了です。
+
+注意事項
+========
+
+バージョンアップに際していくつか注意事項があります。
+
+* 3.6beta11以前からのバージョンアップ時にメンバーの設定画面(member/config)において下記の３つの項目が表示されなくなるため，使用する場合には管理画面(pc_backend.php/sns/config/category/general)より「使用する」を選択する必要があります。
+
+  * 言語とタイムゾーンの設定
+  * 外部サービスとの接続設定
+  * OpenID の設定
+
+

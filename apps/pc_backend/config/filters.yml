@@ -1,0 +1,15 @@
+rendering: ~
+
+cache_control:
+  class: opCacheControlFilter
+
+security:  ~
+
+# insert your own filters here
+
+cache:     ~
+
+execution:
+  class: opExecutionFilter
+  param:
+    type: execution
