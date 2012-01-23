@@ -13,5 +13,5 @@ before_script:
   - sh -c "cp config/OpenPNE.yml.sample config/OpenPNE.yml"
   - sh -c "./symfony openpne:fast-install --dbms=mysql --dbuser=root --dbpassword= --dbname=openpne"
 
-script: symfony test:unit
+script: ./symfony test:unit
 
