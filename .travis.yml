@@ -1,0 +1,17 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+
+env:
+  - DB=mysql
+
+before_script:
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS openpne;' -uroot; fi"
+  - sh -c "cp config/ProjectConfiguration.class.php.sample config/ProjectConfiguration.class.php"
+  - sh -c "cp config/OpenPNE.yml.sample config/OpenPNE.yml"
+  - sh -c "./symfony openpne:fast-install --dbms=mysql --dbuser=root --dbpassword= --dbname=openpne"
+
+script: symfony test:unit
+
